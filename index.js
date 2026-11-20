@@ -36,3 +36,14 @@ export {
   unarchive,
 } from './src/sessions.js'
 export { createSpool, enqueue, waitForResult, withdraw } from './src/spool.js'
+export {
+  agentsListText,
+  boardText,
+  childState,
+  collectSubagents,
+  createAgentBoards,
+  formatElapsed,
+  reportOf,
+  subagentLabel,
+  subagentsText,
+} from './src/subagents.js'
