@@ -27,6 +27,8 @@ jobs:
       # Trusted publishing (OIDC): no npm token is stored; npm signs in with the workflow's identity and adds provenance.
       - name: Publish to npm
         run: |
+          # The package's first version was published by hand (a trusted publisher needs the package to exist).
+          if npm view "$(node -p "require('./package.json').name")@${GITHUB_REF_NAME#v}" version >/dev/null 2>&1; then echo "Already on npm"; exit 0; fi
           case "$GITHUB_REF_NAME" in *-*) tag=next ;; *) tag=latest ;; esac
           npm publish --access public --tag "$tag"
       - name: GitHub release
