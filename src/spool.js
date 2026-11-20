@@ -90,7 +90,7 @@ export function createSpool({ dir, handle, ready, onError, intervalMs = 1000 }) 
 
   async function sweep(names) {
     for (const name of names) {
-      if (!name.endsWith('.result.json')) continue
+      if (!name.endsWith('.result.json') && !name.endsWith('.tmp')) continue
       const path = join(dir, name)
       const info = await stat(path).catch(() => undefined)
       if (info !== undefined && Date.now() - info.mtimeMs > RESULT_TTL_MS) await rm(path, { force: true })
@@ -119,8 +119,12 @@ export function createSpool({ dir, handle, ready, onError, intervalMs = 1000 }) 
         outcome = { ok: false, error: typeof error?.message === 'string' ? error.message : String(error) }
       }
       try {
-        await writeFile(join(dir, `${id}.result.json`), JSON.stringify(outcome) + '\n', { mode: 0o600 })
+        // The claim goes before the result shows: a stop in between loses
+        // only the confirmation, never sends the request twice.
+        const pending = join(dir, `${id}.result.tmp`)
+        await writeFile(pending, JSON.stringify(outcome) + '\n', { mode: 0o600 })
         await rm(claimed, { force: true })
+        await rename(pending, join(dir, `${id}.result.json`))
       } catch (error) {
         onError(error)
       }

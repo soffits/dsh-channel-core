@@ -7,10 +7,11 @@ import { createSpool, enqueue, waitForResult, withdraw } from '../src/spool.js'
 
 test('a spooled request is handled once and its result read back', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'spool-'))
+  let spool
   try {
     const handled = []
     let ready = false
-    const spool = createSpool({ dir, handle: async (request) => { handled.push(request.text); if (request.text === 'bad') throw new Error('refused'); return { n: handled.length } }, ready: () => ready, onError: assert.fail, intervalMs: 20 })
+    spool = createSpool({ dir, handle: async (request) => { handled.push(request.text); if (request.text === 'bad') throw new Error('refused'); return { n: handled.length } }, ready: () => ready, onError: assert.fail, intervalMs: 20 })
     const first = await enqueue({ text: 'ok' }, dir)
     const second = await enqueue({ text: 'bad' }, dir)
     await spool.start()
@@ -22,8 +23,9 @@ test('a spooled request is handled once and its result read back', async () => {
     assert.equal(await waitForResult('missing', 50, dir), undefined)
     spool.stop()
     assert.deepEqual(handled, ['ok', 'bad'])
-    assert.deepEqual(await readdir(dir), [], 'results are removed once read')
+    assert.deepEqual(await readdir(dir), [], 'a request is settled before its result shows, and results are removed once read')
   } finally {
+    spool?.stop()
     await rm(dir, { recursive: true, force: true })
   }
 })

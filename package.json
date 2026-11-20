@@ -6,10 +6,12 @@
   "main": "./index.js",
   "exports": {
     ".": "./index.js",
+    "./testing": "./testing.js",
     "./package.json": "./package.json"
   },
   "files": [
     "index.js",
+    "testing.js",
     "src/*.js",
     "README.md",
     "CHANGELOG.md",
@@ -20,7 +22,7 @@
   },
   "scripts": {
     "test": "node --test \"test/*.test.js\"",
-    "check": "for f in index.js src/*.js test/*.js; do node --check \"$f\" || exit 1; done"
+    "check": "for f in index.js testing.js src/*.js test/*.js; do node --check \"$f\" || exit 1; done"
   },
   "keywords": [
     "dsh",
