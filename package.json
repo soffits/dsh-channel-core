@@ -1,15 +1,17 @@
 {
   "name": "@soffits/dsh-channel-core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Shared core for DeepSeek Harness chat bridges: the final answer of a turn and the silent marker, session model selection from the Web catalog, voice transcription, and the sender principal recorded on prompts.",
   "type": "module",
   "main": "./index.js",
   "exports": {
     ".": "./index.js",
+    "./testing": "./testing.js",
     "./package.json": "./package.json"
   },
   "files": [
     "index.js",
+    "testing.js",
     "src/*.js",
     "README.md",
     "CHANGELOG.md",
@@ -20,7 +22,7 @@
   },
   "scripts": {
     "test": "node --test \"test/*.test.js\"",
-    "check": "for f in index.js src/*.js test/*.js; do node --check \"$f\" || exit 1; done"
+    "check": "for f in index.js testing.js src/*.js test/*.js; do node --check \"$f\" || exit 1; done"
   },
   "keywords": [
     "dsh",

@@ -10,4 +10,7 @@
 
 - The silent marker is cut wherever it ends the answer, also after real text, since a turn can hold several assistant messages. While streaming, a trailing `[` that may grow into the marker is held back so it never flashes.
 - One way to add sender metadata (`withMetadata`): fields the message already records win, so a principal DSH wrote itself is never replaced.
+- `admitPrompt` reports `admitted`, `known`, `empty` or `unsupported` instead of a yes/no, because the bridges act differently on a duplicate (Telegram counts it as steered, Matrix releases its reaction).
+- The bridge says what is its own in a call: the claim marker's text and request id prefix, which request ids are the chat's (`removePending`), the spool directory, the fallback title. The core never knows network names.
+- `admitPrompt` checks the request id before every path, the controller's too, so a redelivered message never reaches a session twice whatever the path.
 - `transcriptNote` takes the network's name from the caller instead of knowing networks.
