@@ -1,6 +1,6 @@
 {
   "name": "@soffits/dsh-channel-core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Shared core for DeepSeek Harness chat bridges: the final answer of a turn and the silent marker, session model selection from the Web catalog, voice transcription, and the sender principal recorded on prompts.",
   "type": "module",
   "main": "./index.js",
