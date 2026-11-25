@@ -1,3 +1,5 @@
+> **Moved.** This package is now part of [@soffits/dsh-plugin-sdk](https://github.com/soffits/dsh-plugin-sdk) (`channel/`), with its history. This repository is archived.
+
 # dsh-channel-core
 
 Shared building blocks for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) chat bridges, the plugins that connect DSH sessions to a chat network. Each bridge keeps its own network code (receiving, sending, editing, ids); what should behave the same on every network lives here:
